@@ -8,7 +8,8 @@ import {
 </script>
 
 <template>
-  <header class="border-b border-gray-200 bg-white fixed top-0 left-0 w-full z-50">
+  <!-- navbar white -->
+  <header class="border-b border-gray-200 bg-white fixed top-0 left-0 w-full z-50"> 
     <div class="container mx-auto px-4">
       <div class="flex items-center justify-between h-16">
         <!-- AREA LOGO -->
@@ -21,6 +22,7 @@ import {
           <a href="#" class="hover:text-gray-700 text-gray-600">Pria</a>
           <a href="#" class="hover:text-gray-700 text-gray-600">Wanita</a>
           <a href="#" class="hover:text-gray-700 text-gray-600">Anak - Anak</a>
+          <a href="#" class="hover:text-gray-700 text-gray-600">Sport</a>
           <a href="#" class="hover:text-gray-700 text-gray-600">Promo</a>
         </nav>
 

@@ -3,6 +3,7 @@
 </script>
 
 <template>
+  <!-- warna gray-50 -->
   <footer class="bg-gray-50 border-t border-gray-100 mt-16">
     <div class="container mx-auto px-4 py-12">
       <!-- NAVIGASI UTAMA -->
