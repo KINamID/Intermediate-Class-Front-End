@@ -5,25 +5,27 @@ import {
   ShoppingBagIcon,
   Bars3Icon,
 } from '@heroicons/vue/24/outline'
+import { RouterLink } from 'vue-router'
+import { cart } from '@/stores/cart' // Tambahkan ini
 </script>
 
 <template>
   <!-- navbar white -->
-  <header class="border-b border-gray-200 bg-white fixed top-0 left-0 w-full z-50"> 
+  <header class="border-b border-gray-200 bg-white fixed top-0 left-0 w-full z-50">
     <div class="container mx-auto px-4">
       <div class="flex items-center justify-between h-16">
         <!-- AREA LOGO -->
         <div class="flex items-center flex-1">
-          <img src="/src/assets/img/logo.png" alt="Logo" class="h-10 w-auto rounded-full" />
+         <RouterLink to="/"><img src="/src/assets/img/logo.png" alt="Logo" class="h-10 w-auto rounded-full" /></RouterLink>
         </div>
 
         <!-- AREA MENU NAVBAR -->
         <nav class="hidden md:flex items-center gap-8 font-medium flex-2 justify-center">
-          <a href="#" class="hover:text-gray-700 text-gray-600">Pria</a>
-          <a href="#" class="hover:text-gray-700 text-gray-600">Wanita</a>
-          <a href="#" class="hover:text-gray-700 text-gray-600">Anak - Anak</a>
-          <a href="#" class="hover:text-gray-700 text-gray-600">Sport</a>
-          <a href="#" class="hover:text-gray-700 text-gray-600">Promo</a>
+          <RouterLink to="/men" class="hover:text-gray-700 text-gray-600">Pria</RouterLink>
+          <RouterLink to="/women" class="hover:text-gray-700 text-gray-600">Wanita</RouterLink>
+          <RouterLink to="/kids" class="hover:text-gray-700 text-gray-600">Anak - Anak</RouterLink>
+          <RouterLink to="/sport" class="hover:text-gray-700 text-gray-600">Sport</RouterLink>
+          <RouterLink to="/promo" class="hover:text-gray-700 text-gray-600">Promo</RouterLink>
         </nav>
 
         <!-- AREA ACTION -->
@@ -43,9 +45,15 @@ import {
             <HeartIcon class="w-5 h-5" />
           </button>
 
-          <button class="p-2 hover:bg-gray-100 rounded-full">
+          <RouterLink to="/cart" class="p-2 hover:bg-gray-100 rounded-full relative">
             <ShoppingBagIcon class="w-5 h-5" />
-          </button>
+            <span
+              v-if="cart.totalItems"
+              class="absolute -top-2 -right-2 bg-red-500 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full"
+            >
+              {{ cart.totalItems }}
+            </span>
+          </RouterLink>
 
           <!-- ACTION BUTTON MOBILE -->
           <button class="md:hidden p-2 hover:bg-gray-100 rounded-full">

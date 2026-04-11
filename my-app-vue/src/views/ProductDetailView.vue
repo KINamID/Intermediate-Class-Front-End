@@ -1,6 +1,8 @@
 <script setup>
 import { useRoute } from 'vue-router'
 import { computed } from 'vue'
+import { StarIcon, TruckIcon, ShieldCheckIcon } from '@heroicons/vue/24/outline'
+import { cart } from '@/stores/cart' // Tambahkan ini
 
 const route = useRoute()
 
@@ -35,7 +37,7 @@ const products = [
 
 // Cari produk berdasarkan ID dari route params
 const product = computed(() => {
-  return products.find(p => p.id === Number(route.params.id))
+  return products.find((p) => p.id === Number(route.params.id))
 })
 </script>
 
@@ -48,7 +50,6 @@ const product = computed(() => {
     </div>
 
     <div v-if="product" class="grid md:grid-cols-2 gap-10 items-start">
-
       <div class="bg-gray-100 rounded-xl overflow-hidden">
         <img :src="product.image" class="w-full h-full object-cover" />
       </div>
@@ -65,15 +66,18 @@ const product = computed(() => {
         </div>
 
         <div class="flex gap-4 pt-4">
-          <button class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition">
+          <button
+            @click="cart.add(product)"
+            class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition"
+          >
             Add to Cart
           </button>
+
           <button class="border border-gray-300 px-6 py-3 rounded-lg hover:bg-gray-50 transition">
             Wishlist
           </button>
         </div>
       </div>
-
     </div>
 
     <div v-else class="text-center py-20">
