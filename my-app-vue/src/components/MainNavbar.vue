@@ -4,6 +4,7 @@ import {
   HeartIcon,
   ShoppingBagIcon,
   Bars3Icon,
+  UserIcon,
 } from '@heroicons/vue/24/outline'
 import { RouterLink } from 'vue-router'
 import { cart } from '@/stores/cart' // Tambahkan ini
@@ -16,7 +17,9 @@ import { cart } from '@/stores/cart' // Tambahkan ini
       <div class="flex items-center justify-between h-16">
         <!-- AREA LOGO -->
         <div class="flex items-center flex-1">
-         <RouterLink to="/"><img src="/src/assets/img/logo.png" alt="Logo" class="h-10 w-auto rounded-full" /></RouterLink>
+          <RouterLink to="/"
+            ><img src="/src/assets/img/logo.png" alt="Logo" class="h-10 w-auto rounded-full"
+          /></RouterLink>
         </div>
 
         <!-- AREA MENU NAVBAR -->
@@ -41,6 +44,10 @@ import { cart } from '@/stores/cart' // Tambahkan ini
           </div>
 
           <!-- ACTION BUTTON -->
+          <RouterLink to="/login" class="p-2 hover:bg-gray-100 rounded-full" title="Masuk">
+            <UserIcon class="w-5 h-5" />
+          </RouterLink>
+
           <button class="p-2 hover:bg-gray-100 rounded-full">
             <HeartIcon class="w-5 h-5" />
           </button>

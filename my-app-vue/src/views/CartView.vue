@@ -24,8 +24,22 @@ import { RouterLink } from 'vue-router'
           </div>
 
           <div class="flex items-center gap-3">
-            <span>Qty: {{ item.qty }}</span>
-            <button @click="cart.remove(item.id)" class="text-red-500 text-sm">Hapus</button>
+            <button
+              @click="cart.decrease(item.id)"
+              class="bg-gray-200 text-gray-700 px-3 py-1 rounded"
+            >
+              -
+            </button>
+            <span>{{ item.qty }}</span>
+            <button @click="cart.add(item)" class="bg-blue-600 text-white px-3 py-1 rounded">
+              +
+            </button>
+            <button
+              @click="cart.remove(item.id)"
+              class="text-red-500 text-sm border border-red-500 hover:bg-red-500 hover:text-white px-3 py-1 rounded"
+            >
+              Hapus
+            </button>
           </div>
         </div>
       </div>
@@ -44,7 +58,7 @@ import { RouterLink } from 'vue-router'
 
           <div class="flex justify-between text-gray-500">
             <span>Subtotal</span>
-            <span>IDR {{ cart.totalPrice }}K</span>
+            <span>IDR {{ cart.totalPrice }}</span>
           </div>
 
           <div class="flex justify-between text-gray-500">
@@ -54,7 +68,7 @@ import { RouterLink } from 'vue-router'
 
           <div class="border-t border-gray-100 pt-3 flex justify-between font-semibold text-lg">
             <span>Total</span>
-            <span>IDR {{ cart.totalPrice }}K</span>
+            <span>IDR {{ cart.totalPrice }}</span>
           </div>
         </div>
 
@@ -81,11 +95,12 @@ import { RouterLink } from 'vue-router'
           </div>
         </div>
 
-        <button
-          class="w-full bg-blue-600 text-white py-3 rounded-xl font-medium hover:bg-blue-700 transition"
+        <RouterLink
+          to="/checkout"
+          class="block w-full bg-blue-600 text-white py-3 rounded-xl font-medium hover:bg-blue-700 transition text-center"
         >
           Checkout Sekarang
-        </button>
+        </RouterLink>
 
         <p class="text-xs text-gray-400 text-center">Transaksi aman & terenkripsi.</p>
       </div>

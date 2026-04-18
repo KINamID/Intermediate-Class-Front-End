@@ -5,6 +5,11 @@ const state = reactive({
   items: [],
 })
 
+//Format Price
+function formatPrice(price) {
+  return (price * 1000).toLocaleString('id-ID')
+}
+
 // Tambah produk ke keranjang
 function add(product) {
   const existing = state.items.find((item) => item.id === product.id)
@@ -14,6 +19,21 @@ function add(product) {
   } else {
     state.items.push({ ...product, qty: 1 }) // Belum ada? Push baru
   }
+}
+
+// Qty Cart decrement
+function decrease(id){
+  const exis= state.items.find((item) => item.id === id)
+
+  if (!exis) {
+   return; 
+  } 
+
+  if (exis.qty <= 1) {
+    return ;
+  }
+
+  exis.qty--
 }
 
 // Hapus produk dari keranjang
@@ -28,7 +48,7 @@ const totalItems = computed(() =>
 
 // Hitung total harga
 const totalPrice = computed(() =>
-  state.items.reduce((sum, item) => sum + item.price * item.qty, 0)
+  formatPrice(state.items.reduce((sum, item) => sum + item.price * item.qty, 0))
 )
 
 // Export jadi satu object
@@ -38,4 +58,6 @@ export const cart = {
   remove,
   totalItems,
   totalPrice,
+  decrease,
+  formatPrice,
 }
