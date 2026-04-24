@@ -1,26 +1,59 @@
 <script setup lang="ts">
 import { reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
+import ErrorAlert from '@/components/sections/ErrorAlert.vue'
+import SuccessAlert from '@/components/sections/SuccesAlert.vue'
 
 const router = useRouter()
 
-// Semua field form dibundel dalam satu reactive object
 const form = reactive({
   email: '',
   password: '',
 })
 
-// State untuk loading dan toggle password
 const isSubmitting = ref(false)
 const showPassword = ref(false)
 
+// Alert states
+const showError = ref(false)
+const showSuccess = ref(false)
+const errorMessages = ref<string[]>([])
+
 function handleSubmit() {
+  // Reset alerts
+  showError.value = false
+  showSuccess.value = false
+  
+  // Validasi
+  const errors: string[] = []
+  if (!form.email) errors.push('Email harus diisi')
+  if (!form.password) errors.push('Password harus diisi')
+  if (form.password && form.password.length < 6) {
+    errors.push('Password minimal 6 karakter')
+  }
+  
+  if (errors.length > 0) {
+    errorMessages.value = errors
+    showError.value = true
+    return
+  }
+
   isSubmitting.value = true
-  // Simulasi proses login (delay 1.2 detik)
+  
+  // Simulasi API call
   setTimeout(() => {
     isSubmitting.value = false
-    alert('Login berhasil! Selamat datang.')
-    router.push('/') // redirect ke homepage
+    
+    // Simulasi error dari server (50% chance)
+    if (Math.random() > 0.5) {
+      errorMessages.value = ['Email atau password salah', 'Silakan coba lagi']
+      showError.value = true
+    } else {
+      showSuccess.value = true
+      setTimeout(() => {
+        router.push('/')
+      }, 1500)
+    }
   }, 1200)
 }
 </script>
@@ -39,6 +72,29 @@ function handleSubmit() {
       <form @submit.prevent="handleSubmit"
         class="bg-white rounded-2xl shadow-sm ring-1 ring-gray-100 p-8 space-y-6">
 
+        <!-- 🎯 ALERT DISINI - Paling atas dalam form -->
+        <ErrorAlert 
+          v-if="showError"
+          title="Terjadi Kesalahan"
+          :errors="errorMessages"
+          bg-color="bg-red-950"
+          icon-bg-color="bg-red-500"
+          title-color="text-red-50"
+          text-color="text-red-100"
+        />
+
+        <SuccessAlert
+          v-if="showSuccess"
+          title="Login Berhasil!"
+          message="Selamat datang kembali. Anda akan dialihkan ke halaman utama."
+          primary-action-text=""
+          secondary-action-text=""
+          bg-color="bg-emerald-950"
+          icon-bg-color="bg-emerald-500"
+          title-color="text-emerald-50"
+          text-color="text-emerald-100"
+        />
+
         <!-- Email Field -->
         <div>
           <label for="email" class="block text-sm font-medium text-gray-700 mb-1">
@@ -49,7 +105,7 @@ function handleSubmit() {
             class="w-full rounded-lg border px-4 py-2.5 text-sm outline-none transition border-gray-300" />
         </div>
 
-        <!-- Password Field dengan Toggle -->
+        <!-- Password Field -->
         <div>
           <label for="password" class="block text-sm font-medium text-gray-700 mb-1">
             Password
