@@ -6,8 +6,12 @@ const state = reactive({
 })
 
 //Format Price
-function formatPrice(price) {
-  return (price * 1000).toLocaleString('id-ID')
+function formatPrice(value) {
+  return new Intl.NumberFormat('en-EN', {
+    style: 'currency',
+    currency: 'USD',
+    minimumFractionDigits: 0,
+  }).format(value)
 }
 
 // Tambah produk ke keranjang
@@ -22,15 +26,15 @@ function add(product) {
 }
 
 // Qty Cart decrement
-function decrease(id){
-  const exis= state.items.find((item) => item.id === id)
+function decrease(id) {
+  const exis = state.items.find((item) => item.id === id)
 
   if (!exis) {
-   return; 
-  } 
+    return
+  }
 
   if (exis.qty <= 1) {
-    return ;
+    return
   }
 
   exis.qty--
@@ -42,13 +46,11 @@ function remove(id) {
 }
 
 // Hitung total qty semua item
-const totalItems = computed(() =>
-  state.items.reduce((sum, item) => sum + item.qty, 0)
-)
+const totalItems = computed(() => state.items.reduce((sum, item) => sum + item.qty, 0))
 
 // Hitung total harga
 const totalPrice = computed(() =>
-  formatPrice(state.items.reduce((sum, item) => sum + item.price * item.qty, 0))
+  formatPrice(state.items.reduce((sum, item) => sum + item.price * item.qty, 0)),
 )
 
 // Export jadi satu object
