@@ -5,9 +5,11 @@ import {
   ShoppingBagIcon,
   Bars3Icon,
   UserIcon,
+  ArrowRightStartOnRectangleIcon,
 } from '@heroicons/vue/24/outline'
 import { RouterLink } from 'vue-router'
 import { cart } from '@/stores/cart' // Tambahkan ini
+import { auth } from '@/stores/auth'
 </script>
 
 <template>
@@ -44,10 +46,24 @@ import { cart } from '@/stores/cart' // Tambahkan ini
           </div>
 
           <!-- ACTION BUTTON -->
-          <RouterLink to="/login" class="p-2 hover:bg-gray-100 rounded-full" title="Masuk">
+          <RouterLink
+            v-if="!auth.isLoggedIn.value"
+            to="/login"
+            class="p-2 hover:bg-gray-100 rounded-full"
+            title="Masuk"
+          >
             <UserIcon class="w-5 h-5" />
           </RouterLink>
 
+          <button
+            v-else
+            @click="auth.logout()"
+            class="p-2 hover:bg-gray-100 rounded-full"
+            title="Keluar"
+          >
+            <ArrowRightStartOnRectangleIcon class="w-5 h-5" />
+          </button>
+          
           <button class="p-2 hover:bg-gray-100 rounded-full">
             <HeartIcon class="w-5 h-5" />
           </button>

@@ -303,6 +303,21 @@
 <script setup>
 import { ref, computed } from 'vue'
 import { cart } from '@/stores/cart'
+const showSuccessModal = ref(false)
+const isSubmitting = ref(false)
+
+// Ganti isi setTimeout di handleSubmit
+setTimeout(() => {
+  isSubmitting.value = false
+  cart.state.items = [] // kosongkan keranjang
+  showSuccessModal.value = true // tampilkan modal (bukan alert)
+}, 1500)
+
+// Fungsi untuk tutup modal dan redirect ke home
+function closeModalAndRedirect() {
+  showSuccessModal.value = false
+  router.push('/')
+}
 
 // Langsung ambil data dari cart store
 const cartItems = computed(() => cart.state.items)

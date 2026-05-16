@@ -32,6 +32,7 @@ const routes = [
   {
     path: '/checkout',
     component: CheckoutView,
+    meta: { requiresAuth: true },
   },
 ]
 export const router = createRouter({
@@ -39,4 +40,9 @@ export const router = createRouter({
   routes,
 })
 
+router.beforeEach((to) => {
+  if (to.meta.requiresAuth && !auth.isLoggedIn.value) {
+    return '/login'
+  }
+})
 export default router

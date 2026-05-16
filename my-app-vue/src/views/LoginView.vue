@@ -3,6 +3,7 @@ import { reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import ErrorAlert from '@/components/sections/ErrorAlert.vue'
 import SuccessAlert from '@/components/sections/SuccesAlert.vue'
+import { auth } from '@/stores/auth'
 
 const router = useRouter()
 
@@ -23,7 +24,7 @@ function handleSubmit() {
   // Reset alerts
   showError.value = false
   showSuccess.value = false
-  
+
   // Validasi
   const errors: string[] = []
   if (!form.email) errors.push('Email harus diisi')
@@ -31,7 +32,7 @@ function handleSubmit() {
   if (form.password && form.password.length < 6) {
     errors.push('Password minimal 6 karakter')
   }
-  
+
   if (errors.length > 0) {
     errorMessages.value = errors
     showError.value = true
@@ -39,20 +40,18 @@ function handleSubmit() {
   }
 
   isSubmitting.value = true
-  
+
   // Simulasi API call
   setTimeout(() => {
     isSubmitting.value = false
-    
-    // Simulasi error dari server (50% chance)
-    if (Math.random() > 0.5) {
-      errorMessages.value = ['Email atau password salah', 'Silakan coba lagi']
-      showError.value = true
+    const success = auth.login(form.email, form.password)
+
+    if (success) {
+      router.push('/') // login berhasil, redirect ke home
     } else {
-      showSuccess.value = true
-      setTimeout(() => {
-        router.push('/')
-      }, 1500)
+      // Login gagal, tampilkan pesan error
+      errorMessages.value = ['Email atau password salah. Coba: admin@toko.com / admin123']
+      showError.value = true
     }
   }, 1200)
 }
@@ -61,7 +60,6 @@ function handleSubmit() {
 <template>
   <section class="min-h-[80vh] flex items-center justify-center px-4 mt-16">
     <div class="max-w-md mx-auto w-full">
-
       <!-- Header -->
       <div class="text-center mb-8">
         <h1 class="text-3xl font-bold text-gray-900">Masuk</h1>
@@ -69,11 +67,12 @@ function handleSubmit() {
       </div>
 
       <!-- Form Card -->
-      <form @submit.prevent="handleSubmit"
-        class="bg-white rounded-2xl shadow-sm ring-1 ring-gray-100 p-8 space-y-6">
-
+      <form
+        @submit.prevent="handleSubmit"
+        class="bg-white rounded-2xl shadow-sm ring-1 ring-gray-100 p-8 space-y-6"
+      >
         <!-- 🎯 ALERT DISINI - Paling atas dalam form -->
-        <ErrorAlert 
+        <ErrorAlert
           v-if="showError"
           title="Terjadi Kesalahan"
           :errors="errorMessages"
@@ -97,12 +96,14 @@ function handleSubmit() {
 
         <!-- Email Field -->
         <div>
-          <label for="email" class="block text-sm font-medium text-gray-700 mb-1">
-            Email
-          </label>
-          <input id="email" v-model="form.email" type="email"
+          <label for="email" class="block text-sm font-medium text-gray-700 mb-1"> Email </label>
+          <input
+            id="email"
+            v-model="form.email"
+            type="email"
             placeholder="contoh@email.com"
-            class="w-full rounded-lg border px-4 py-2.5 text-sm outline-none transition border-gray-300" />
+            class="w-full rounded-lg border px-4 py-2.5 text-sm outline-none transition border-gray-300"
+          />
         </div>
 
         <!-- Password Field -->
@@ -111,25 +112,32 @@ function handleSubmit() {
             Password
           </label>
           <div class="relative">
-            <input id="password" v-model="form.password"
+            <input
+              id="password"
+              v-model="form.password"
               :type="showPassword ? 'text' : 'password'"
               placeholder="Minimal 6 karakter"
-              class="w-full rounded-lg border px-4 py-2.5 text-sm outline-none transition pr-12 border-gray-300" />
-            <button type="button" @click="showPassword = !showPassword"
-              class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 text-sm">
+              class="w-full rounded-lg border px-4 py-2.5 text-sm outline-none transition pr-12 border-gray-300"
+            />
+            <button
+              type="button"
+              @click="showPassword = !showPassword"
+              class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 text-sm"
+            >
               {{ showPassword ? 'Tutup' : 'Lihat' }}
             </button>
           </div>
         </div>
 
         <!-- Submit Button -->
-        <button type="submit" :disabled="isSubmitting"
-          class="w-full bg-slate-900 text-white py-3 rounded-xl font-medium
-                 hover:bg-slate-800 transition disabled:opacity-50 disabled:cursor-not-allowed">
+        <button
+          type="submit"
+          :disabled="isSubmitting"
+          class="w-full bg-slate-900 text-white py-3 rounded-xl font-medium hover:bg-slate-800 transition disabled:opacity-50 disabled:cursor-not-allowed"
+        >
           <span v-if="isSubmitting">Memproses...</span>
           <span v-else>Masuk</span>
         </button>
-
       </form>
     </div>
   </section>
