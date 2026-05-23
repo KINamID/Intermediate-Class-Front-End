@@ -41,16 +41,19 @@ function handleSubmit() {
 
   isSubmitting.value = true
 
-  // Simulasi API call
   setTimeout(() => {
     isSubmitting.value = false
     const success = auth.login(form.email, form.password)
 
     if (success) {
-      router.push('/') // login berhasil, redirect ke home
+      isSubmitting.value = false
+      showSuccess.value = true
+      setTimeout(() => {
+        router.push('/') // redirect ke home
+      }, 1500)
     } else {
       // Login gagal, tampilkan pesan error
-      errorMessages.value = ['Email atau password salah. Coba: admin@toko.com / admin123']
+      errorMessages.value = ['Email atau password salah. Coba lagi.']
       showError.value = true
     }
   }, 1200)

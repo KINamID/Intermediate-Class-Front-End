@@ -3,7 +3,7 @@ import { ref } from 'vue'
 const isLoggedIn = ref(localStorage.getItem('isLoggedIn') === 'true')
 const userEmail = ref(localStorage.getItem('userEmail') || '')
 
-const MOCK_EMAIL = 'admin@toko.com'
+const MOCK_EMAIL = 'admin@gmail.com'
 const MOCK_PASSWORD = 'admin123'
 
 function login(email, password ){

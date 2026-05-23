@@ -5,6 +5,8 @@ import CartView from '@/views/CartView.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 import CheckoutView from '@/views/CheckoutView.vue'
 import LoginView from '@/views/LoginView.vue'
+import { auth } from '@/stores/auth'
+import WishlistView from '@/views/WishlistView.vue'
 
 // Definisi Routes: Mapping URL ke Component
 const routes = [
@@ -22,9 +24,14 @@ const routes = [
     props: true, // Kirim route params sebagai props
   },
   {
-    path: '/cart', // Route baru
+    path: '/wishlist',
+    component: WishlistView,
+  },
+  {
+    path: '/cart',
     component: CartView,
   },
+
   {
     path: '/login',
     component: LoginView,

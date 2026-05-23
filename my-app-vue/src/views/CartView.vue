@@ -20,7 +20,7 @@ import { RouterLink } from 'vue-router'
 
           <div class="col-span-2">
             <p class="font-semibold line-clamp-1">{{ item.title }}</p>
-            <p class="text-sm text-gray-500">${{ cart.formatPrice(item.price) }}</p>
+            <p class="text-sm text-gray-500">{{ cart.formatPrice(item.price) }}</p>
           </div>
 
           <div class="flex items-center gap-3">

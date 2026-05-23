@@ -3,6 +3,7 @@ import { useRoute } from 'vue-router'
 import { computed, ref, onMounted } from 'vue'
 import { StarIcon, TruckIcon, ShieldCheckIcon } from '@heroicons/vue/24/outline'
 import { cart } from '@/stores/cart'
+import { wishlist } from '@/stores/wishlist'
 import axios from 'axios'
 
 const productImage = ref(null)
@@ -53,7 +54,6 @@ const fetchProduct = async () => {
     const response = await axios.get(`https://fakestoreapi.com/products/${route.params.id}`)
     product.value = response.data
   } catch (error) {
-    console.error('Gagal mengambil detail produk:', error)
   } finally {
     isLoading.value = false
   }
@@ -68,12 +68,13 @@ onMounted(() => {
   <section class="max-w-6xl mx-auto px-6 py-12 mt-10">
     <!-- Spinner loading -->
     <div v-if="isLoading" class="flex justify-center items-center py-32">
-      <div class="w-10 h-10 border-4 border-gray-200 border-t-slate-900 rounded-full animate-spin"></div>
+      <div
+        class="w-10 h-10 border-4 border-gray-200 border-t-slate-900 rounded-full animate-spin"
+      ></div>
     </div>
 
     <!-- Konten detail produk setelah loading selesai -->
     <template v-else-if="product">
-
       <!-- Breadcrumb -->
       <div class="text-sm text-gray-500 mb-6">
         <RouterLink to="/" class="hover:text-gray-800">Home</RouterLink>
@@ -83,10 +84,14 @@ onMounted(() => {
 
       <!-- Grid: Foto + Info -->
       <div class="grid md:grid-cols-2 gap-10 items-start">
-
         <!-- Foto produk -->
         <div class="bg-white rounded-xl overflow-hidden p-6">
-          <img :src="product.image" :alt="product.title" class="w-full h-96 object-contain" />
+          <img
+            :src="product.image"
+            :alt="product.title"
+            ref="productImage"
+            class="w-full h-80 object-contain"
+          />
         </div>
 
         <!-- Info produk -->
@@ -95,7 +100,8 @@ onMounted(() => {
 
           <!-- Rating dari API -->
           <div class="flex items-center gap-1 text-yellow-500">
-            <StarIcon class="w-5 h-5" /> <!-- ulangi 5x -->
+            <StarIcon class="w-5 h-5" />
+            <!-- ulangi 5x -->
             <span class="text-sm text-gray-500 ml-2">
               {{ product.rating?.rate }} ({{ product.rating?.count }} reviews)
             </span>
@@ -109,7 +115,8 @@ onMounted(() => {
           <div class="flex gap-4 pt-4">
             <button
               @click="handleAddToCart"
-              class="bg-slate-900 text-white px-6 py-3 rounded-lg hover:bg-slate-800 transition">
+              class="bg-slate-900 text-white px-6 py-3 rounded-lg hover:bg-slate-800 transition"
+            >
               Add to Cart
             </button>
             <button class="border border-gray-300 px-6 py-3 rounded-lg hover:bg-gray-50 transition">

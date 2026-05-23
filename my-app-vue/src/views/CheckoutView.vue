@@ -5,9 +5,12 @@
       <div class="max-w-7xl mx-auto px-4 py-6 md:py-8">
         <div class="flex items-center justify-between">
           <h1 class="text-2xl md:text-3xl font-light tracking-tight text-stone-900">Checkout</h1>
-          <button class="text-sm text-stone-500 hover:text-stone-900 transition-colors">
-            <span class="tracking-wider uppercase">Exit</span>
-          </button>
+          <RouterLink 
+            to="/cart"
+            class="text-sm text-stone-500 hover:text-stone-900 transition-colors"
+          >
+            <span class="tracking-wider uppercase">Back to Cart</span>
+          </RouterLink>
         </div>
       </div>
     </header>
@@ -49,8 +52,25 @@
       </div>
     </div>
 
+    <!-- Empty Cart Message -->
+    <div v-if="cartItems.length === 0" class="max-w-7xl mx-auto px-4 py-16 text-center">
+      <div class="max-w-md mx-auto">
+        <svg class="w-24 h-24 mx-auto text-stone-300 mb-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+        </svg>
+        <h2 class="text-2xl font-light text-stone-900 mb-2">Cart is Empty</h2>
+        <p class="text-stone-500 mb-6">Please add some products to your cart first.</p>
+        <RouterLink 
+          to="/"
+          class="inline-block bg-stone-900 text-white px-8 py-3 rounded-xl hover:bg-stone-800 transition-colors"
+        >
+          <span class="text-sm tracking-wider uppercase">Start Shopping</span>
+        </RouterLink>
+      </div>
+    </div>
+
     <!-- Main Content -->
-    <div class="max-w-7xl mx-auto px-4 py-8 md:py-12">
+    <div v-else class="max-w-7xl mx-auto px-4 py-8 md:py-12">
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12">
         <!-- Left Column - Forms -->
         <div class="lg:col-span-2 space-y-8">
@@ -105,7 +125,7 @@
                   v-model="shippingInfo.phone"
                   type="tel"
                   class="w-full px-4 py-3 border border-stone-200 focus:border-stone-900 focus:outline-none transition-colors text-stone-900 bg-white"
-                  placeholder="+62 812-3456-7890"
+                  placeholder="+1 (555) 000-0000"
                 />
               </div>
 
@@ -117,7 +137,7 @@
                   v-model="shippingInfo.address"
                   type="text"
                   class="w-full px-4 py-3 border border-stone-200 focus:border-stone-900 focus:outline-none transition-colors text-stone-900 bg-white"
-                  placeholder="Jln Mawar No. 123, Jakarta Selatan"
+                  placeholder="123 Main Street"
                 />
               </div>
 
@@ -130,7 +150,7 @@
                     v-model="shippingInfo.city"
                     type="text"
                     class="w-full px-4 py-3 border border-stone-200 focus:border-stone-900 focus:outline-none transition-colors text-stone-900 bg-white"
-                    placeholder="Jakarta Selatan"
+                    placeholder="New York"
                   />
                 </div>
                 <div>
@@ -141,7 +161,7 @@
                     v-model="shippingInfo.state"
                     type="text"
                     class="w-full px-4 py-3 border border-stone-200 focus:border-stone-900 focus:outline-none transition-colors text-stone-900 bg-white"
-                    placeholder="Indonesia"
+                    placeholder="NY"
                   />
                 </div>
                 <div>
@@ -198,7 +218,7 @@
                     v-model="paymentInfo.expiry"
                     type="text"
                     class="w-full px-4 py-3 border border-stone-200 focus:border-stone-900 focus:outline-none transition-colors text-stone-900 bg-white"
-                    placeholder="DD/MM/YY"
+                    placeholder="MM/YY"
                   />
                 </div>
                 <div>
@@ -217,12 +237,6 @@
           </section>
         </div>
 
-        <!-- Tampil otomatis jika cart kosong -->
-        <div v-if="cartItems.length === 0">
-          <p>Keranjang Kosong</p>
-          <RouterLink to="/">Mulai Belanja</RouterLink>
-        </div>
-
         <!-- Right Column - Order Summary -->
         <div class="lg:col-span-1">
           <div class="bg-stone-50 border border-stone-200 p-6 md:p-8 sticky top-8">
@@ -231,22 +245,24 @@
             <!-- Cart Items -->
             <div class="space-y-4 mb-6 pb-6 border-b border-stone-200">
               <div v-for="item in cartItems" :key="item.id" class="flex gap-4">
-                <div class="w-20 h-20 bg-stone-200 flex-shrink-0">
-                  <!-- Placeholder for product image -->
+                <div class="w-20 h-20 bg-stone-200 flex-shrink-0 rounded">
+                  <!-- ✅ FIX: Gambar ada! -->
                   <img
                     v-if="item.image"
                     :src="item.image"
-                    :alt="item.name"
-                    class="w-full h-full object-cover"
+                    :alt="item.title"
+                    class="w-full h-full object-contain p-2"
                   />
                 </div>
                 <div class="flex-1 min-w-0">
-                  <h3 class="text-sm font-light text-stone-900 truncate">{{ item.name }}</h3>
-                  <p class="text-xs text-stone-500 mt-1">{{ item.size }} / {{ item.color }}</p>
-                  <p class="text-xs text-stone-500">Qty: {{ item.quantity }}</p>
+                  <!-- ✅ FIX: Pakai item.title dari API -->
+                  <h3 class="text-sm font-light text-stone-900 line-clamp-2">{{ item.title }}</h3>
+                  <!-- ✅ FIX: Pakai item.qty (bukan quantity) -->
+                  <p class="text-xs text-stone-500 mt-1">Qty: {{ item.qty }}</p>
                 </div>
-                <div class="text-sm font-light text-stone-900">
-                  Rp{{ formatPrice(item.price * item.quantity) }}
+                <div class="text-sm font-medium text-stone-900">
+                  <!-- ✅ FIX: Pakai qty dan formatPrice dari cart -->
+                  {{ cart.formatPrice(item.price * item.qty) }}
                 </div>
               </div>
             </div>
@@ -255,30 +271,34 @@
             <div class="space-y-3 mb-6 pb-6 border-b border-stone-200">
               <div class="flex justify-between text-sm">
                 <span class="text-stone-600">Subtotal</span>
-                <span class="text-stone-900">Rp{{ formatPrice(subtotal) }}</span>
+                <!-- ✅ FIX: Pakai subtotal yang benar -->
+                <span class="text-stone-900">{{ cart.formatPrice(subtotal) }}</span>
               </div>
               <div class="flex justify-between text-sm">
                 <span class="text-stone-600">Shipping</span>
-                <span class="text-stone-900">Rp{{ formatPrice(shipping) }}</span>
+                <span class="text-green-600 font-medium">Free</span>
               </div>
               <div class="flex justify-between text-sm">
-                <span class="text-stone-600">Tax</span>
-                <span class="text-stone-900">Rp{{ formatPrice(tax) }}</span>
+                <span class="text-stone-600">Tax (10%)</span>
+                <span class="text-stone-900">{{ cart.formatPrice(tax) }}</span>
               </div>
             </div>
 
             <!-- Total -->
             <div class="flex justify-between items-center mb-6">
               <span class="text-lg font-light text-stone-900">Total</span>
-              <span class="text-2xl font-light text-stone-900">Rp{{ formatPrice(total) }}</span>
+              <span class="text-2xl font-medium text-stone-900">{{ cart.formatPrice(total) }}</span>
             </div>
 
             <!-- Place Order Button -->
             <button
-              class="w-full bg-stone-900 text-white py-4 hover:bg-stone-800 transition-colors duration-300 group"
+              class="w-full bg-stone-900 text-white py-4 rounded hover:bg-stone-800 transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+              :disabled="isSubmitting"
               @click="placeOrder"
             >
-              <span class="text-sm tracking-wider uppercase font-light"> Place Order </span>
+              <span class="text-sm tracking-wider uppercase font-light">
+                {{ isSubmitting ? 'Processing...' : 'Place Order' }}
+              </span>
             </button>
 
             <!-- Security Badge -->
@@ -297,38 +317,41 @@
         </div>
       </div>
     </div>
+
+    <!-- Success Modal -->
+    <Transition name="fade">
+      <div v-if="showSuccessModal" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+        <div class="bg-white rounded-2xl p-8 max-w-md w-full">
+          <div class="text-center">
+            <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+              </svg>
+            </div>
+            <h3 class="text-2xl font-bold text-gray-900 mb-2">Order Successful!</h3>
+            <p class="text-gray-600 mb-6">Thank you for your purchase. Your order has been placed successfully.</p>
+            <button 
+              @click="closeModalAndRedirect"
+              class="w-full bg-stone-900 text-white py-3 rounded-xl hover:bg-stone-800 transition"
+            >
+              Continue Shopping
+            </button>
+          </div>
+        </div>
+      </div>
+    </Transition>
   </div>
 </template>
 
 <script setup>
 import { ref, computed } from 'vue'
+import { RouterLink, useRouter } from 'vue-router'
 import { cart } from '@/stores/cart'
+
+const router = useRouter()
+
 const showSuccessModal = ref(false)
 const isSubmitting = ref(false)
-
-// Ganti isi setTimeout di handleSubmit
-setTimeout(() => {
-  isSubmitting.value = false
-  cart.state.items = [] // kosongkan keranjang
-  showSuccessModal.value = true // tampilkan modal (bukan alert)
-}, 1500)
-
-// Fungsi untuk tutup modal dan redirect ke home
-function closeModalAndRedirect() {
-  showSuccessModal.value = false
-  router.push('/')
-}
-
-// Langsung ambil data dari cart store
-const cartItems = computed(() => cart.state.items)
-const totalItems = computed(() => cart.totalItems)
-
-const formatPrice = (price) => {
-  if (typeof price === 'number') {
-    return `${price}`
-  }
-  return price
-}
 
 const currentStep = ref(2)
 
@@ -357,37 +380,49 @@ const paymentInfo = ref({
   cvv: '',
 })
 
-// Subtotal dihitung dari cart items
+const cartItems = computed(() => cart.state.items)
+
 const subtotal = computed(() => {
   return cartItems.value.reduce((sum, item) => {
-    return sum + item.price * item.qty * 1000 // price 129 = 129K = 129000
+    return sum + (item.price * item.qty)
   }, 0)
 })
 
-// Tax 10% otomatis
-const tax = computed(() => subtotal.value * 0.1)
-
-// Shipping gratis (sesuai CartView)
+// Shipping gratis
 const shipping = 0
 
-// Total otomatis
+// Tax 10%
+const tax = computed(() => subtotal.value * 0.1)
+
+// Total
 const total = computed(() => subtotal.value + shipping + tax.value)
 
 const placeOrder = () => {
-  console.log('Order placed!', {
-    shipping: shippingInfo.value,
-    payment: paymentInfo.value,
-    items: cartItems.value,
-    total: total.value,
-  })
-  // ... validasi & processing ...
+  // Validasi sederhana
+  if (!shippingInfo.value.firstName || !shippingInfo.value.email) {
+    alert('Please fill in shipping information')
+    return
+  }
 
-  // Clear semua items dari cart setelah order berhasil
-  cartItems.value.forEach((item) => {
-    cart.remove(item.id)
-  })
+  if (!paymentInfo.value.cardNumber || !paymentInfo.value.cardName) {
+    alert('Please fill in payment information')
+    return
+  }
 
-  router.push('/') // Redirect ke home
+  isSubmitting.value = true
+
+  // Simulate order processing
+  setTimeout(() => {
+    isSubmitting.value = false
+    cart.state.items = [] // Clear cart
+    showSuccessModal.value = true
+  }, 1500)
+}
+
+// Close modal and redirect
+function closeModalAndRedirect() {
+  showSuccessModal.value = false
+  router.push('/')
 }
 </script>
 
@@ -398,5 +433,22 @@ input::placeholder {
 
 input:focus {
   background-color: white;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: all 0.3s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 </style>

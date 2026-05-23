@@ -13,7 +13,7 @@ const fetchProducts = async () => {
     const response = await axios.get('https://fakestoreapi.com/products')
     products.value = response.data
   } catch (error) {
-    console.error('Gagal mengambil data produk:', error)
+    
   } finally {
     isLoading.value = false
   }

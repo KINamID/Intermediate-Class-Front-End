@@ -8,7 +8,7 @@ import {
   ArrowRightStartOnRectangleIcon,
 } from '@heroicons/vue/24/outline'
 import { RouterLink } from 'vue-router'
-import { cart } from '@/stores/cart' // Tambahkan ini
+import { cart } from '@/stores/cart'
 import { auth } from '@/stores/auth'
 </script>
 
@@ -63,7 +63,7 @@ import { auth } from '@/stores/auth'
           >
             <ArrowRightStartOnRectangleIcon class="w-5 h-5" />
           </button>
-          
+
           <button class="p-2 hover:bg-gray-100 rounded-full">
             <HeartIcon class="w-5 h-5" />
           </button>
