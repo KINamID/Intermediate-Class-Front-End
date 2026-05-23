@@ -245,7 +245,7 @@
             <!-- Cart Items -->
             <div class="space-y-4 mb-6 pb-6 border-b border-stone-200">
               <div v-for="item in cartItems" :key="item.id" class="flex gap-4">
-                <div class="w-20 h-20 bg-stone-200 flex-shrink-0 rounded">
+                <div class="w-20 h-20 bg-stone-200 shrink-0 rounded">
                   <!-- ✅ FIX: Gambar ada! -->
                   <img
                     v-if="item.image"
