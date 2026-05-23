@@ -5,7 +5,7 @@ import { RouterLink } from 'vue-router'
 </script>
 
 <template>
-  <section class="max-w-6xl mx-auto px-6 py-16 mt-8 min-h-[80vh]">
+  <section class="max-w-6xl mx-auto px-6 py-16 mt-8 min-h-[85vh]">
     <h1 class="text-3xl font-bold mb-8">Shopping Cart</h1>
 
     <div v-if="cart.state.items.length" class="grid md:grid-cols-3 gap-10">

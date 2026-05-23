@@ -8,7 +8,7 @@ const sections = ref([
     title: 'Where Dreams Meet Couture',
     bgColor: 'bg-stone-100',
     textColor: 'text-white',
-    imageUrl: '/src/assets/img/ManModel.jpeg', // Replace with your image
+    imageUrl: '/man.jpeg', 
   },
   {
     id: 'radiant',
@@ -16,7 +16,7 @@ const sections = ref([
     title: 'Enchanting Styles for Every Woman',
     bgColor: 'bg-stone-50',
     textColor: 'text-white',
-    imageUrl: '/src/assets/img/WomenModel2.jpeg', // Replace with your image
+    imageUrl: '/woman.jpeg', 
   },
   {
     id: 'urban',
@@ -24,7 +24,7 @@ const sections = ref([
     title: 'Chic Footwear for City Living',
     bgColor: 'bg-neutral-100',
     textColor: 'text-white',
-    imageUrl: '/src/assets/img/WhiteShoe.jpeg', // Replace with your image
+    imageUrl: '/shoe.jpeg', 
   },
   {
     id: 'bags',
@@ -33,7 +33,7 @@ const sections = ref([
     discount: '50%',
     bgColor: 'bg-slate-500',
     textColor: 'text-white',
-    imageUrl: null, // Solid background, no image needed
+    imageUrl: null, 
   },
 ])
 </script>

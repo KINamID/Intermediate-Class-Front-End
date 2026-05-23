@@ -43,6 +43,13 @@ function handleAddToCart() {
     clone.remove()
   }, 800)
 }
+
+function handleAddToWishlist() {
+  if (!product.value) return
+
+  wishlist.add(product.value)
+}
+
 const route = useRoute()
 const product = ref()
 const isLoading = ref(true)
@@ -119,8 +126,11 @@ onMounted(() => {
             >
               Add to Cart
             </button>
-            <button class="border border-gray-300 px-6 py-3 rounded-lg hover:bg-gray-50 transition">
-              Wishlist
+            <button
+              @click="handleAddToWishlist"
+              class="border border-gray-300 px-6 py-3 rounded-lg hover:bg-gray-50 transition"
+            >
+              {{ wishlist.isWishlisted(product.id) ? 'Wishlisted' : 'Wishlist' }}
             </button>
           </div>
         </div>
