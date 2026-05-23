@@ -64,9 +64,9 @@ import { auth } from '@/stores/auth'
             <ArrowRightStartOnRectangleIcon class="w-5 h-5" />
           </button>
 
-          <RouterLink to="/wishlist" id="wish-icon" class="p-2 hover:bg-gray-100 rounded-full">
-              <HeartIcon class="w-5 h-5" />
-          </RouterLink>
+          <button class="p-2 hover:bg-gray-100 rounded-full">
+            <HeartIcon class="w-5 h-5" />
+          </button>
 
           <RouterLink to="/cart" id="cart-icon" class="p-2 hover:bg-gray-100 rounded-full relative">
             <ShoppingBagIcon class="w-5 h-5" />

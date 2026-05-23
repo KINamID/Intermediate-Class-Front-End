@@ -5,32 +5,21 @@ export const wishlist = {
     items: JSON.parse(localStorage.getItem('wishlist')) || []
   }),
 
-  add(product) {
-    if (!product) return
+  toggle(product) {
+    const index = this.state.items.findIndex(item => item.id === product.id)
 
-    const exists = this.state.items.find(item => item.id === product.id)
-
-    if (!exists) {
+    if (index !== -1) {
+      this.state.items.splice(index, 1)
+    } else {
       this.state.items.push({
         id: product.id,
         title: product.title,
         price: Number(product.price),
-        image: product.image,
-        category: product.category,
-        description: product.description
+        image: product.image
       })
     }
 
     this.save()
-  },
-
-  remove(id) {
-    const index = this.state.items.findIndex(item => item.id === id)
-
-    if (index !== -1) {
-      this.state.items.splice(index, 1)
-      this.save()
-    }
   },
 
   isWishlisted(id) {
