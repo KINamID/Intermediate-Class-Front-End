@@ -3,8 +3,8 @@ import { wishlist } from '@/stores/wishlist'
 </script>
 
 <template>
-  <section class="max-w-6xl mx-auto px-6 py-16 mt-8 min-h-[85vh]">
-    <h1 class="text-3xl font-bold mb-8">My Wishlist</h1>
+  <section class="max-w-6xl mx-auto px-6 py-16">
+    <h1 class="text-2xl font-bold mb-8">My Wishlist</h1>
 
     <p v-if="wishlist.state.items.length === 0" class="text-gray-500">
       Wishlist masih kosong.
